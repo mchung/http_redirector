@@ -1,17 +1,14 @@
 require 'rubygems'
 require 'bundler'
 Bundler.require(:default)
-require 'pp'
 require 'rack/rewrite'
 
-use Rack::Reloader
+
 use Rack::Rewrite do
-  rewrite '/wiki/John_Trupiano', '/nuts'
-  r301 '/wiki/Yair_Flicker', '/yair'
-  r302 '/wiki/Greg_Jastrab', '/greg'
+  rewrite '/batman', '/bruce-wayne.html'
+  r301 'superman', '/clark-kent'
   r301 %r{/wiki/(\w+)_\w+}, '/$1'
-  r302 '/marc', 'http://marcchung.com/blog'
-  r302 '/super', 'http://marcchung.com'
+  r302 '/marc', 'http://marcchung.com'
 
   # How to rewrite base on host name
   r302 '/', 'http://bing.com', :host => "bing.yiwen.org"
@@ -22,3 +19,4 @@ use Rack::Rewrite do
 end
 
 run Rack::Directory.new('public')
+use Rack::Static, :root => "public", :urls => %w[/], :index => "index.html"
